@@ -1,24 +1,60 @@
 const express = require('express')
 const mongoose = require('mongoose')
+const exphbs = require('express-handlebars')
+const bodyParser = require('body-parser')
+
+const Short = require('./models/short')
+
+const generateShort = require('./generate_short')
 
 const app = express()
-mongoose.connect(process.env.MONGODB_URI, { useNewUrlParser: true, useUnifiedTopology: true})
+mongoose.connect(process.env.MONGODB_URI, { useNewUrlParser: true, useUnifiedTopology: true })
 
 const db = mongoose.connection
 
-db.on('error',()=>{
+db.on('error', () => {
   console.log('mongoose error')
 })
 
-db.once('open',()=>{
+db.once('open', () => {
   console.log('mongoose connect')
 })
 
-app.get('/',(req,res)=>{
-  res.send('hello')
+app.engine('hbs', exphbs({ defaultLayout: 'main', extname: '.hbs' }))
+app.set('view engine', 'hbs')
+
+app.use(bodyParser.urlencoded({ extended: true }))
+
+app.get('/', (req, res) => {
+  res.render('index')
+})
+
+app.get('/short', (req, res) => {
+  res.render('index')
+})
+
+app.post('/short', (req, res) => {
+  const origin = req.body.origin
+  if (origin) {
+    const short = "http://localhost:3000/short/" + generateShort()
+    return Short.create({ origin, short })
+      .then(() => res.render('index', { short }))
+      .catch(error => console.log(error))
+  } else {
+    res.redirect('/')
+  }
+})
+
+app.get('/short/:st', (req, res) => {
+  const st = req.params.st
+  return Short.findOne({ short: `http://localhost:3000/short/${st}` })
+    .lean()
+    .then(abc => res.redirect(`${abc.origin}`))
+    .catch(error => console.log(error))
+
 })
 
 
-app.listen(3000,()=>{
+app.listen(3000, () => {
   console.log('app is running on http://localhost:3000')
 })

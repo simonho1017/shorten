@@ -1,0 +1,12 @@
+<img src="https://assets-lighthouse.alphacamp.co/uploads/image/file/16716/ExportedContentImage_00.png" alt="">
+<form action="/short" method="POST">
+  <input type="text" placeholder="origin" name="origin">
+  <button type="submit">Shorten</button>
+</form>
+
+{{#if short}}
+<dir>
+  <h1>Success! Please use this link {{short}}</span></h1>
+  <a href="{{short}}">use this</a>
+</dir>
+{{/if}}
