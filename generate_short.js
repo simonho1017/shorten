@@ -3,7 +3,7 @@ function generateShort() {
 
   let short = ''
   for (let i = 0; i < 5; i++) {
-    const index = Math.floor(Math.random() * 62)
+    const index = Math.floor(Math.random() * Number(all.length))
     short += all[index]
   }
   return short

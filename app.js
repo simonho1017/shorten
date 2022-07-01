@@ -35,14 +35,31 @@ app.get('/short', (req, res) => {
 
 app.post('/short', (req, res) => {
   const origin = req.body.origin
-  if (origin) {
-    const short = "http://localhost:3000/short/" + generateShort()
-    return Short.create({ origin, short })
-      .then(() => res.render('index', { short }))
-      .catch(error => console.log(error))
-  } else {
-    res.redirect('/')
-  }
+  if (!origin) return res.redirect('/')
+
+  Short.find({ origin: origin })
+    .then(url => {
+      if (url.length === 0) {
+        console.log(url)
+        const short = "http://localhost:3000/short/" + generateShort()
+        Short.create({ origin, short })
+          .catch(error => console.log(error))
+        res.render('url', { short })
+
+
+
+      } else if (url.length > 0) {
+        res.render('url', { short: url[0].short })
+        console.log(url)
+
+      }
+    })
+
+  // const short = "http://localhost:3000/short/" + generateShort()
+  // return Short.create({ origin, short })
+  //   .then(() => res.render('index', { short }))
+  //   .catch(error => console.log(error))
+
 })
 
 app.get('/short/:st', (req, res) => {

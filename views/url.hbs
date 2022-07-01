@@ -6,15 +6,13 @@
 
   <div class="mb-3">
     <form action="/short" method="POST">
-      <input type="text" placeholder="origin" name="origin">
-      <button type="submit" class="btn btn-primary">Shorten</button>
+      <button type="submit" class="btn btn-primary">Copy</button>
     </form>
-    {{#if short}}
     <div>
       <h1>Success! Please use this link</h1>
       <h2><a href="{{short}}">{{short}}</a></h2>
     </div>
-    {{/if}}
+
 
   </div>
 
