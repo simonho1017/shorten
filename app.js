@@ -37,23 +37,38 @@ app.post('/short', (req, res) => {
   const origin = req.body.origin
   if (!origin) return res.redirect('/')
 
-  Short.find({ origin: origin })
-    .then(url => {
-      if (url.length === 0) {
-        console.log(url)
-        const short = "http://localhost:3000/short/" + generateShort()
-        Short.create({ origin, short })
-          .catch(error => console.log(error))
-        res.render('url', { short })
+  Short.findOne({ origin }).then(url => {
+    if (url) {
+      console.log(url)
+      console.log(url.short)
+      res.render('url', { short: url.short })
+
+    } else {
+      const short = "http://localhost:3000/short/" + generateShort()
+      return Short.create({ origin, short })
+        .then(() => res.render('url', { short }))
+        .catch(error => console.log(error))
+    }
+  })
+
+
+  // Short.find({ origin: origin })
+  //   .then(url => {
+  //     if (url.length === 0) {
+  //       console.log(url)
+  //       const short = "http://localhost:3000/short/" + generateShort()
+  //       Short.create({ origin, short })
+  //         .catch(error => console.log(error))
+  //       res.render('url', { short })
 
 
 
-      } else if (url.length > 0) {
-        res.render('url', { short: url[0].short })
-        console.log(url)
+  //     } else if (url.length > 0) {
+  //       res.render('url', { short: url[0].short })
+  //       console.log(url)
 
-      }
-    })
+  //     }
+  //   })
 
   // const short = "http://localhost:3000/short/" + generateShort()
   // return Short.create({ origin, short })

@@ -1,21 +1,27 @@
-<div class="text-center ">
-  <h1>URL SHORTEN</h1>
-  <img src="https://assets-lighthouse.alphacamp.co/uploads/image/file/16716/ExportedContentImage_00.png" class="rounded"
-    alt="..." style="width: 200px;">
+<div class="row mt-5">
+  <div class="col-md-6 m-auto">
+    <div class="card card-body">
+      <div class="text-center ">
+        <h1>URL SHORTEN</h1>
+        <img src="https://assets-lighthouse.alphacamp.co/uploads/image/file/16716/ExportedContentImage_00.png"
+          class="rounded" alt="..." style="width: 200px;">
 
 
-  <div class="mb-3">
-    <form action="/short" method="POST">
-      <input type="text" placeholder="origin" name="origin">
-      <button type="submit" class="btn btn-primary">Shorten</button>
-    </form>
-    {{#if short}}
-    <div>
-      <h1>Success! Please use this link</h1>
-      <h2><a href="{{short}}">{{short}}</a></h2>
+        <div class="mb-3">
+          <form action="/short" method="POST">
+            <input type="text" placeholder="origin" name="origin" class="form-control my-3">
+            <button type="submit" class="btn btn-primary">Shorten</button>
+          </form>
+          {{#if short}}
+          <div>
+            <h1>Success! Please use this link</h1>
+            <h2><a href="{{short}}">{{short}}</a></h2>
+          </div>
+          {{/if}}
+
+        </div>
+
+      </div>
     </div>
-    {{/if}}
-
   </div>
-
 </div>
